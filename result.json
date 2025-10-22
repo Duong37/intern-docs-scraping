@@ -1,0 +1,21 @@
+{
+  "totalListings": 3,
+  "listings": [
+    {
+      "title": "GMR - 15.6 Inch Full HD Laptop - Intel N95 - 12GB DDR5 RAM - 512GB SSD - Windows 11 Pro voor Thuis, Office en Studie notebook",
+      "price": 399,
+      "url": "https://www.bol.com/nl/nl/p/gmr-15-6-inch-full-hd-laptop-intel-n95-12gb-ddr5-ram-512gb-ssd-windows-11-pro-voor-thuis-office-en-studie-notebook/9300000229932049/"
+    },
+    {
+      "title": "No title found",
+      "price": 0,
+      "url": "https://www.bol.com/nl/nl/ra/ontdek-bijpassende-accessoires-voor-jouw-nieuwe-windows-laptop/439293"
+    },
+    {
+      "title": "Lenovo ThinkBook 14 G6 ABP 21KJ008JMH - Zakelijke laptop - 14 inch",
+      "price": 759,
+      "url": "https://www.bol.com/nl/nl/p/amd-ryzen-5-7430u-16go-ddr4-sdram-512go-ssd-35-6-cm-wuxga-1920-x-1200-ips-amd-radeon-graphics-lan-wlan-webcam-windows-11-pro-64-bit/9300000181519407/"
+    }
+  ],
+  "errors": []
+}
