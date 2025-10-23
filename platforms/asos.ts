@@ -47,7 +47,7 @@ export class Asos implements Platform {
 
   async scrapeItemPage(page: Page, url: string): Promise<Listing> {
     console.log(`Scraping asos.com listing: ${url}`);
-    await navigateAndWait(page, url, { selector: 'h1' });
+    await navigateAndWait(page, url, 'h1');
 
     // Extract listing information using correct selectors
     const listingInfo = await page.evaluate(() => {

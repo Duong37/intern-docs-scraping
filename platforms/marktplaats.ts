@@ -23,7 +23,7 @@ export class Marktplaats implements Platform {
         : `https://www.marktplaats.nl/q/${encodeURIComponent(keyword)}/p/${currentPage + 1}/`;
 
       console.log(`Loading page ${currentPage + 1} (${allUrls.length}/${limit} URLs collected so far)...`);
-      await navigateAndWait(page, searchUrl, { selector: 'a.hz-Listing-coverLink' });
+      await navigateAndWait(page, searchUrl, 'a.hz-Listing-coverLink');
 
       // Get all listing URLs from the current search page
       const listingUrls = await page.$$eval('a.hz-Listing-coverLink', (elements) =>
@@ -66,7 +66,7 @@ export class Marktplaats implements Platform {
 
   async scrapeItemPage(page: Page, url: string): Promise<Listing> {
     console.log(`Scraping marktplaats listing: ${url}`);
-    await navigateAndWait(page, url, { selector: '.ListingHeader-title' });
+    await navigateAndWait(page, url, 'a.hz-Listing-coverLink');
 
     // Extract listing information using correct selectors for individual pages
     const listing = await page.evaluate(() => {

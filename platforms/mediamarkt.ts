@@ -10,7 +10,7 @@ export class Mediamarkt implements Platform {
 
     // Navigate to Mediamarkt search page
     const searchUrl = `https://www.mediamarkt.nl/nl/search.html?query=${encodeURIComponent(keyword)}`;
-    await navigateAndWait(page, searchUrl);
+    await navigateAndWait(page, searchUrl, 'a[data-test="mms-router-link-product-image-wrapper"]');
 
     // Wait for search results to load
     await page.waitForSelector('a[data-test="mms-router-link-product-image-wrapper"]', { timeout: 10000 });
@@ -29,7 +29,7 @@ export class Mediamarkt implements Platform {
 
   async scrapeItemPage(page: Page, url: string): Promise<Listing> {
     console.log(`Scraping mediamarkt listing: ${url}`);
-    await navigateAndWait(page, url);
+    await navigateAndWait(page, url, 'a[data-test="mms-router-link-product-image-wrapper"]');
 
     // Extract listing information using correct selectors
     const listingInfo = await page.evaluate(() => {
