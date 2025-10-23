@@ -8,25 +8,46 @@ export class Asos implements Platform {
   async scrapeSearchPage(page: Page, keyword: string, limit: number): Promise<string[]> {
     console.log(`Scraping asos.com search page for: ${keyword}`);
 
-    // Navigate to ASOS search page
-    const searchUrl = `https://www.asos.com/search/?q=${encodeURIComponent(keyword)}`;
-    await navigateAndWait(page, searchUrl);
+    let allProductUrls: string[] = [];
+    let currentPage = 1;
 
-    // Get all product URLs from the search page
-    const productUrls = await page.$$eval('a.productLink_KM4PI', (elements) =>
-      (elements as HTMLAnchorElement[]).map((element) => {
-        const href = element.getAttribute('href');
-        return href ? (href.startsWith('http') ? href : `https://www.asos.com${href}`) : null;
-      }).filter((url): url is string => url !== null)
-    );
+    // Loop through pages until we have enough products
+    while (allProductUrls.length < limit) {
+      const searchUrl = `https://www.asos.com/search/?q=${encodeURIComponent(keyword)}&page=${currentPage}`;
+      await navigateAndWait(page, searchUrl, 'a.productLink_KM4PI');
 
-    console.log(`Found ${productUrls.length} products`);
-    return productUrls.slice(0, Math.min(limit, productUrls.length));
+      // Get all product URLs from the current page
+      const productUrls = await page.$$eval('a.productLink_KM4PI', (elements) =>
+        (elements as HTMLAnchorElement[]).map((element) => {
+          const href = element.getAttribute('href');
+          return href ? (href.startsWith('http') ? href : `https://www.asos.com${href}`) : null;
+        }).filter((url): url is string => url !== null)
+      );
+
+      // If no products found, we've reached the end
+      if (productUrls.length === 0) {
+        console.log(`No more products found on page ${currentPage}`);
+        break;
+      }
+
+      allProductUrls.push(...productUrls);
+      console.log(`Page ${currentPage}: Found ${productUrls.length} products (Total: ${allProductUrls.length})`);
+
+      // If we have enough products, stop
+      if (allProductUrls.length >= limit) {
+        break;
+      }
+
+      currentPage++;
+    }
+
+    console.log(`Found ${allProductUrls.length} total products, returning first ${limit}`);
+    return allProductUrls.slice(0, limit);
   }
 
   async scrapeItemPage(page: Page, url: string): Promise<Listing> {
     console.log(`Scraping asos.com listing: ${url}`);
-    await navigateAndWait(page, url);
+    await navigateAndWait(page, url, { selector: 'h1' });
 
     // Extract listing information using correct selectors
     const listingInfo = await page.evaluate(() => {

@@ -5,7 +5,8 @@ import { writeFileSync } from "fs";
 async function main() {
   // Get command line arguments
   const args = process.argv.slice(2);
-
+  
+  // Step 1: Check if the correct number of arguments are provided
   if (args.length < 3) {
     console.log("Usage: yarn start <platform> <search-term> <limit>");
     console.log("Example: yarn start marktplaats tshirt 20");
